@@ -7,11 +7,14 @@
     <style>
         :root {
             --primary: #1a4b6e;
+            --primary-light: #f0f6fa;
             --accent: #d97706;
+            --success: #059669;
+            --danger: #dc2626;
             --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-            --border: #e2e8f0;
+            --card: #ffffff;
+            --text: #0f172a;
+            --border: #cbd5e1;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -23,288 +26,392 @@
             justify-content: center;
         }
         .container {
-            max-width: 850px;
+            max-width: 950px;
             width: 100%;
-            background: var(--card-bg);
-            padding: 30px;
+            background: var(--card);
+            padding: 35px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             border: 1px solid var(--border);
         }
-        h1, h2, h3 { color: var(--primary); }
+        .header-title {
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .header-title h1 { color: var(--primary); margin: 0; font-size: 2rem; }
+        .header-title p { color: #64748b; margin: 5px 0 0 0; font-style: italic; }
+        
         .score-sticky {
             position: sticky;
-            top: 10px;
+            top: 15px;
             background: var(--primary);
             color: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
+            padding: 18px 24px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
         }
-        .score-sticky h2 { color: #fff; margin: 0; font-size: 1.2rem; }
-        .score-badge { font-size: 1.8rem; font-weight: bold; color: #fbbf24; }
-        .section {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
+        .score-badge { font-size: 2.2rem; font-weight: 800; color: #fbbf24; }
+        .status-badge { font-size: 1.1rem; font-weight: 600; padding: 4px 12px; border-radius: 6px; background: rgba(255,255,255,0.15); }
+        
+        .section-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 25px;
         }
-        .checkbox-group {
+        .section-card h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; }
+        .section-card h3 { color: var(--accent); margin-top: 20px; font-size: 1.1rem; }
+        
+        .checkbox-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin: 15px 0;
         }
-        label {
+        label.cb-label {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            background: var(--primary-light);
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.92rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        label.cb-label:hover { border-color: var(--primary); background: #e0edf5; }
+        
+        .gatekeeper-box {
+            background: #fffbeb;
+            border: 2px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .info-accordion {
             background: #f1f5f9;
-            padding: 10px;
             border-radius: 6px;
-            font-size: 0.95rem;
-            cursor: pointer;
-        }
-        label:hover { background: #e2e8f0; }
-        .result-box {
-            background: #eff6ff;
-            border-left: 4px solid var(--primary);
             padding: 15px;
-            margin-top: 15px;
-            border-radius: 4px;
+            margin-bottom: 10px;
         }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 15px;
+        .info-accordion summary { font-weight: bold; cursor: pointer; color: var(--primary); }
+        
+        .input-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
         }
+        .input-group { flex: 1; min-width: 180px; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; }
+        .input-group input, .input-group select { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; }
+        
+        textarea { width: 100%; height: 140px; padding: 12px; border-radius: 6px; border: 1px solid var(--border); font-family: monospace; }
+        button { background-color: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; }
         button:hover { opacity: 0.9; }
-        textarea {
-            width: 100%;
-            height: 120px;
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            font-family: monospace;
-        }
-        footer {
-            margin-top: 30px;
-            font-size: 0.8rem;
-            color: #64748b;
-            text-align: center;
-        }
+        footer { margin-top: 40px; font-size: 0.85rem; color: #64748b; text-align: center; border-top: 1px solid var(--border); padding-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>SORA Clinical Assessment Tool</h1>
-    <p><em>Skin failure etiology assessment & standard of care verification</em></p>
+    <div class="header-title">
+        <h1>SORA Clinical Assessment Tool</h1>
+        <p>Skin failure Etiology Assessment, Serial Modifier & Prevention Verification</p>
+    </div>
 
-    <!-- Sticky Score Header -->
+    <!-- Sticky Score Tracker -->
     <div class="score-sticky">
         <div>
-            <h2>SORA Score: <span id="total-score" class="score-badge">0 / 25</span></h2>
-            <small id="etiology-status">Likely Other Etiology</small>
+            <div style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; opacity:0.8;">Calculated Score</div>
+            <div class="score-badge" id="total-score">0 / 25</div>
         </div>
-        <div>
-            <small id="soc-status">SOC: NOT MET</small>
+        <div style="text-align:right;">
+            <div id="etiology-status" class="status-badge">LIKELY OTHER ETIOLOGY</div>
+            <div id="soc-status" style="font-size:0.85rem; margin-top:5px;">Prevention SOC: NOT MET (<3)</div>
         </div>
     </div>
 
-    <!-- Section 1: Clinical Risk & Context -->
-    <div class="section">
-        <h3>Step 1: Clinical Context Screening</h3>
+    <!-- SECTION 1: EDUCATION -->
+    <div class="section-card">
+        <h2>SECTION 1: Clinical Education & Guidelines</h2>
         
-        <h4>A. Critical Illness Indicators</h4>
-        <div class="checkbox-group">
-            <label><input type="checkbox" class="clin-ctx"> Sepsis / Septic Shock</label>
-            <label><input type="checkbox" class="clin-ctx"> MODS (≥2 organs)</label>
-            <label><input type="checkbox" class="clin-ctx"> Vasopressor / Inotrope Support</label>
-            <label><input type="checkbox" class="clin-ctx"> Mechanical Vent >72 hrs</label>
-            <label><input type="checkbox" class="clin-ctx"> AKI requiring CRRT/Dialysis</label>
-            <label><input type="checkbox" class="clin-ctx"> Recent Arrest (<7 days)</label>
-            <label><input type="checkbox" class="clin-ctx"> Cardiogenic Shock</label>
-            <label><input type="checkbox" class="clin-ctx"> Respiratory Failure (ARDS)</label>
-        </div>
+        <details class="info-accordion" open>
+            <summary>Definition of Skin Failure</summary>
+            <p style="font-size:0.9rem; line-height:1.5; margin-top:10px;">
+                Skin Failure occurs when the skin and underlying tissue die due to hypoperfusion, severe critical illness, or end-stage systemic organ dysfunction. It represents an internal hypoperfusion event rather than an external mechanical pressure injury (HAPI).
+            </p>
+        </details>
 
-        <h4>B. Laboratory Evidence of Hypoperfusion</h4>
-        <div class="checkbox-group">
-            <label><input type="checkbox" class="lab-ctx"> Albumin < 3.5</label>
-            <label><input type="checkbox" class="lab-ctx"> Hgb < 8.0 (persistent)</label>
-            <label><input type="checkbox" class="lab-ctx"> Platelets < 100K</label>
-            <label><input type="checkbox" class="lab-ctx"> Lactate > 2.0</label>
-            <label><input type="checkbox" class="lab-ctx"> pH < 7.35 or > 7.45</label>
-            <label><input type="checkbox" class="lab-ctx"> INR > 1.5 / Elev. PTT</label>
-        </div>
+        <details class="info-accordion">
+            <summary>Three Categories of Non-Pressure Skin Failure</summary>
+            <ul style="font-size:0.9rem; line-height:1.5; margin-top:10px;">
+                <li><strong>Acute Skin Failure:</strong> Occurs concurrently with acute critical illness, hemodynamic collapse, sepsis, or multi-organ failure. Potential for recovery if underlying illness resolves.</li>
+                <li><strong>Chronic Skin Failure:</strong> Occurs secondary to chronic end-stage systemic disease (e.g., ESRD, severe PVD, advanced cirrhosis) where healing capacity is severely compromised.</li>
+                <li><strong>End-Stage / SCALE (Skin Changes at Life's End):</strong> Occurs during the active dying process as systemic perfusion collapses. Goal shifts entirely to comfort and dignity.</li>
+            </ul>
+        </details>
+    </div>
 
-        <h4>C. Hemodynamic Instability</h4>
-        <div class="checkbox-group">
-            <label><input type="checkbox" id="hemo-pressor"> Vasopressor Duration >24h / ≥2 Pressors</label>
-            <label><input type="checkbox" id="hemo-map"> MAP < 60 Sustained / Recurrent</label>
+    <!-- SECTION 2: STANDARD OF CARE STOP-GAP -->
+    <div class="section-card">
+        <h2>SECTION 2: Standard of Care (SOC) Stop-Gap Gatekeeper</h2>
+        <p style="font-size:0.9rem;">Verify documented prevention measures implemented at least Q-shift for <strong>72 hours PRIOR</strong> to wound onset. This gatekeeper reduces false positives and improper HAPI classification.</p>
+        
+        <div class="gatekeeper-box">
+            <h3>Prevention Measures Checklist (72h Prior to Onset)</h3>
+            <div class="checkbox-grid">
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Braden Assessment Completed</label>
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Repositioning Schedule Documented</label>
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Specialty Support Surface In Use</label>
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Heel Offloading Applied</label>
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Moisture Management Implemented</label>
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Nutritional Support Provided</label>
+                <label class="cb-label"><input type="checkbox" class="soc-check"> Patient / Family Education Documented</label>
+            </div>
+            <div id="gatekeeper-result" style="font-weight:bold; margin-top:10px; color:var(--danger);">
+                Gatekeeper Status: Standard of Care NOT MET (<3 measures documented)
+            </div>
         </div>
     </div>
 
-    <!-- Section 2: Wound Characteristics & Timeline -->
-    <div class="section">
-        <h3>Step 2: Wound Characteristics & Timeline</h3>
+    <!-- SECTION 3: DOMAIN SCORING & SERIAL MODIFIER -->
+    <div class="section-card">
+        <h2>SECTION 3: Domain Scoring System</h2>
 
-        <h4>A. Location & Pattern</h4>
-        <div class="checkbox-group">
-            <label><input type="checkbox" class="loc-atypical"> Atypical Site (shin/abdomen/face)</label>
-            <label><input type="checkbox" class="loc-atypical"> Multiple Simultaneous Sites (≥2)</label>
-            <label><input type="checkbox" class="loc-atypical"> Bilateral / Symmetrical Pattern</label>
-            <label><input type="checkbox" class="loc-typical"> Sacrum / Coccyx / Trochanter / Heel</label>
+        <h3>Domain 1: Clinical Context Screening</h3>
+        <div class="checkbox-grid">
+            <label class="cb-label"><input type="checkbox" class="d1-check"> Sepsis / Septic Shock</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> MODS (≥2 organs)</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> Vasopressor / Inotrope Support</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> Mechanical Vent >72 hrs</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> AKI requiring CRRT / Dialysis</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> Recent Cardiac Arrest (<7 days)</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> Cardiogenic Shock</label>
+            <label class="cb-label"><input type="checkbox" class="d1-check"> Hepatic / Respiratory Failure</label>
         </div>
 
-        <h4>B. Appearance</h4>
-        <div class="checkbox-group">
-            <label><input type="checkbox" class="app-atypical"> Irregular / Mottled / Spoke Pattern</label>
-            <label><input type="checkbox" class="app-atypical"> Purple / Maroon / Black Discoloration</label>
-            <label><input type="checkbox" class="app-atypical"> Butterfly, Pear, or Horseshoe Shape</label>
-            <label><input type="checkbox" class="app-atypical"> Retiform Purpura (net-like)</label>
+        <h3>Domain 2: Laboratory Hypoperfusion Evidence</h3>
+        <div class="checkbox-grid">
+            <label class="cb-label"><input type="checkbox" class="d2-check"> Albumin < 3.5 g/dL</label>
+            <label class="cb-label"><input type="checkbox" class="d2-check"> Hgb < 8.0 g/dL (persistent)</label>
+            <label class="cb-label"><input type="checkbox" class="d2-check"> Platelets < 100K</label>
+            <label class="cb-label"><input type="checkbox" class="d2-check"> Lactate > 2.0 mmol/L</label>
+            <label class="cb-label"><input type="checkbox" class="d2-check"> pH < 7.35 or > 7.45</label>
+            <label class="cb-label"><input type="checkbox" class="d2-check"> D-Dimer > 500 / INR > 1.5</label>
         </div>
 
-        <h4>C. Timeline Onset</h4>
-        <div class="checkbox-group">
-            <label><input type="radio" name="timeline" value="3" onclick="calculateScore()"> Developed < 24 hours (3 pts)</label>
-            <label><input type="radio" name="timeline" value="2" onclick="calculateScore()"> Developed 24–72 hours (2 pts)</label>
-            <label><input type="radio" name="timeline" value="0" onclick="calculateScore()" checked> Developed > 72 hours (0 pts)</label>
+        <h3>Domain 3: Hemodynamic Instability</h3>
+        <div class="checkbox-grid">
+            <label class="cb-label"><input type="checkbox" id="pressor-check"> Vasopressor Duration >24h / High-Dose / ≥2 Pressors</label>
+            <label class="cb-label"><input type="checkbox" id="map-check"> MAP < 60 mmHg Sustained or Recurrent</label>
+        </div>
+
+        <h3>Domain 4: Location & Appearance</h3>
+        <div class="checkbox-grid">
+            <label class="cb-label"><input type="checkbox" class="d4-loc"> Atypical Site (shin/thigh/forearm/face)</label>
+            <label class="cb-label"><input type="checkbox" class="d4-loc"> Multiple Simultaneous Sites (≥2)</label>
+            <label class="cb-label"><input type="checkbox" class="d4-loc"> Bilateral / Symmetrical Pattern</label>
+            <label class="cb-label"><input type="checkbox" class="d4-app"> Irregular / Mottled / Spoke Pattern</label>
+            <label class="cb-label"><input type="checkbox" class="d4-app"> Retiform Purpura / Purple / Black Discoloration</label>
+            <label class="cb-label"><input type="checkbox" class="d4-app"> Butterfly, Pear, or Horseshoe Shape</label>
+        </div>
+
+        <h3>Domain 5: Timeline Onset</h3>
+        <div class="checkbox-grid">
+            <label class="cb-label"><input type="radio" name="timeline" value="3" onclick="calcScore()"> Developed < 24 hrs (Extremely Rapid - 3 pts)</label>
+            <label class="cb-label"><input type="radio" name="timeline" value="2" onclick="calcScore()"> Developed 24–72 hrs (Rapid - 2 pts)</label>
+            <label class="cb-label"><input type="radio" name="timeline" value="0" onclick="calcScore()" checked> Developed > 72 hrs (Gradual - 0 pts)</label>
+        </div>
+
+        <h3>Serial Assessment Modifiers (Progression Tracking)</h3>
+        <div class="checkbox-grid">
+            <label class="cb-label"><input type="checkbox" class="serial-mod"> Deteriorating despite documented Q2H repositioning</label>
+            <label class="cb-label"><input type="checkbox" class="serial-mod"> Deteriorating despite advanced specialty support surface</label>
+            <label class="cb-label"><input type="checkbox" class="serial-mod"> Recurrent necrosis post-debridement / extending under therapy</label>
         </div>
     </div>
 
-    <!-- Section 3: Prevention Standard of Care -->
-    <div class="section">
-        <h3>Step 3: Prevention Measures (Documented 72h Prior)</h3>
-        <div class="checkbox-group">
-            <label><input type="checkbox" class="soc-item"> Braden Assessment Completed</label>
-            <label><input type="checkbox" class="soc-item"> Repositioning Schedule Maintained</label>
-            <label><input type="checkbox" class="soc-item"> Specialty Support Surface Used</label>
-            <label><input type="checkbox" class="soc-item"> Heel Offloading Applied</label>
-            <label><input type="checkbox" class="soc-item"> Moisture Management Implemented</label>
-            <label><input type="checkbox" class="soc-item"> Nutritional Support Provided</label>
-        </div>
-    </div>
+    <!-- SECTION 4: CLASSIFICATION & MANAGEMENT -->
+    <div class="section-card">
+        <h2>SECTION 4: Classification & Management Protocol</h2>
 
-    <!-- Output & Export -->
-    <div class="section">
-        <h3>EHR Documentation Generator</h3>
-        <button onclick="generateEHRNote()">Generate Progress Note</button>
-        <textarea id="ehr-note" readonly placeholder="Click above to generate EHR-ready plain text note..."></textarea>
-        <button onclick="copyToClipboard()">Copy to Clipboard</button>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Skin Failure Classification</label>
+                <select id="sf-class">
+                    <option value="Acute Skin Failure">Acute Skin Failure (Critical Illness)</option>
+                    <option value="Chronic Skin Failure">Chronic Skin Failure (End-Stage Organ Disease)</option>
+                    <option value="End-Stage Skin Failure (SCALE)">End-Stage Skin Failure / SCALE (Actively Dying)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Goals of Care</label>
+                <select id="goals-care">
+                    <option value="Curative / Restorative">Curative / Restorative</option>
+                    <option value="Comfort-Focused">Comfort-Focused</option>
+                    <option value="Palliative / Hospice">Palliative / Hospice</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <div class="input-group">
+                <label>Wound Size (L x W x D cm)</label>
+                <input type="text" id="wound-size" placeholder="e.g. 4.5 x 3.0 x 0.5 cm">
+            </div>
+            <div class="input-group">
+                <label>Primary Tissue (%)</label>
+                <input type="text" id="wound-tissue" placeholder="e.g. 60% Eschar, 40% Slough">
+            </div>
+        </div>
+
+        <h3>EHR Progress Note & PAWSIC Coding Generator</h3>
+        <button onclick="generateEHR()">Generate Note & PAWSIC Coding Statement</button>
+        <div style="margin-top:15px;">
+            <textarea id="ehr-output" readonly placeholder="Click above to compile final progress note..."></textarea>
+        </div>
+        <button onclick="copyNote()" style="background-color:var(--success); margin-top:10px;">Copy Documentation Note</button>
     </div>
 
     <footer>
-        © 2026 Joshua Suknanan. SORA-Clinical Assessment. All rights reserved.<br>
-        Skintegrity Partners | Non-commercial distribution with attribution permitted.
+        © 2026 Joshua Suknanan. SORA Clinical Assessment Tool. All rights reserved.<br>
+        Skintegrity Partners | Licensed under CC BY-NC-ND 4.0
     </footer>
 </div>
 
 <script>
-    document.querySelectorAll('input').forEach(input => {
-        input.addEventListener('change', calculateScore);
+    document.querySelectorAll('input, select').forEach(el => {
+        el.addEventListener('change', calcScore);
     });
 
-    function calculateScore() {
+    function calcScore() {
         let total = 0;
 
-        // 1. Clinical Context (Max 5)
-        const clinCount = document.querySelectorAll('.clin-ctx:checked').length;
-        let clinPts = 0;
-        if (clinCount >= 6) clinPts = 5;
-        else if (clinCount >= 4) clinPts = 3;
-        else if (clinCount >= 2) clinPts = 1;
-        total += clinPts;
+        // Domain 1: Clinical Context
+        const d1Count = document.querySelectorAll('.d1-check:checked').length;
+        let d1Pts = 0;
+        if (d1Count >= 6) d1Pts = 5;
+        else if (d1Count >= 4) d1Pts = 3;
+        else if (d1Count >= 2) d1Pts = 1;
+        total += d1Pts;
 
-        // 2. Labs (Max 4)
-        const labCount = document.querySelectorAll('.lab-ctx:checked').length;
-        let labPts = 0;
-        if (labCount >= 4) labPts = 4;
-        else if (labCount >= 2) labPts = 2;
-        total += labPts;
+        // Domain 2: Labs
+        const d2Count = document.querySelectorAll('.d2-check:checked').length;
+        let d2Pts = 0;
+        if (d2Count >= 4) d2Pts = 4;
+        else if (d2Count >= 2) d2Pts = 2;
+        total += d2Pts;
 
-        // 3. Hemodynamics (Max 4)
-        const pressor = document.getElementById('hemo-pressor').checked;
-        const map = document.getElementById('hemo-map').checked;
-        let hemoPts = 0;
-        if (pressor && map) hemoPts = 4;
-        else if (pressor || map) hemoPts = 2;
-        total += hemoPts;
+        // Domain 3: Hemodynamics
+        const pressor = document.getElementById('pressor-check').checked;
+        const map = document.getElementById('map-check').checked;
+        let d3Pts = 0;
+        if (pressor && map) d3Pts = 4;
+        else if (pressor || map) d3Pts = 2;
+        total += d3Pts;
 
-        // 4. Location (Max 3)
-        const locAtypical = document.querySelectorAll('.loc-atypical:checked').length;
-        const locTypical = document.querySelectorAll('.loc-typical:checked').length;
-        let locPts = 0;
-        if (locAtypical > 0) locPts = 3;
-        else if (locTypical > 0) locPts = 1;
-        total += locPts;
+        // Domain 4: Location & Appearance
+        const d4Loc = document.querySelectorAll('.d4-loc:checked').length;
+        const d4App = document.querySelectorAll('.d4-app:checked').length;
+        let d4Pts = 0;
+        if (d4Loc > 0) d4Pts += 3; else d4Pts += 1;
+        if (d4App >= 3) d4Pts += 3; else if (d4App >= 1) d4Pts += 1;
+        total += d4Pts;
 
-        // 5. Appearance (Max 3)
-        const appCount = document.querySelectorAll('.app-atypical:checked').length;
-        let appPts = 0;
-        if (appCount >= 3) appPts = 3;
-        else if (appCount >= 1) appPts = 1;
-        total += appPts;
-
-        // 6. Timeline (Max 3)
+        // Domain 5: Timeline
         const timelineRad = document.querySelector('input[name="timeline"]:checked');
-        const timePts = timelineRad ? parseInt(timelineRad.value) : 0;
-        total += timePts;
+        const d5Pts = timelineRad ? parseInt(timelineRad.value) : 0;
+        total += d5Pts;
 
-        // 7. Prevention / SOC (Max 3)
-        const socCount = document.querySelectorAll('.soc-item:checked').length;
+        // Domain 6: Prevention / SOC Gatekeeper
+        const socCount = document.querySelectorAll('.soc-check:checked').length;
         let socPts = 0;
-        let socText = "NOT MET (<3)";
-        if (socCount >= 5) { socPts = 3; socText = "MET (≥5)"; }
-        else if (socCount >= 3) { socPts = 1; socText = "PARTIAL (3-4)"; }
+        let socStatus = "NOT MET (<3)";
+        const gateRes = document.getElementById('gatekeeper-result');
+
+        if (socCount >= 5) {
+            socPts = 3;
+            socStatus = "MET (≥5)";
+            gateRes.innerText = "Gatekeeper Status: Standard of Care MET (Prevention Verified)";
+            gateRes.style.color = "var(--success)";
+        } else if (socCount >= 3) {
+            socPts = 1;
+            socStatus = "PARTIAL (3–4)";
+            gateRes.innerText = "Gatekeeper Status: Standard of Care PARTIAL";
+            gateRes.style.color = "var(--accent)";
+        } else {
+            gateRes.innerText = "Gatekeeper Status: Standard of Care NOT MET (Possible Avoidable HAPI Risk)";
+            gateRes.style.color = "var(--danger)";
+        }
         total += socPts;
 
-        // Update UI UI Headers
+        // Update Score Banner
         document.getElementById('total-score').innerText = `${total} / 25`;
-        document.getElementById('soc-status').innerText = `SOC: ${socText}`;
+        document.getElementById('soc-status').innerText = `Prevention SOC: ${socStatus}`;
 
         let statusText = "0–5: LIKELY OTHER ETIOLOGY";
         if (total >= 18) statusText = "18–25: HIGH CONFIDENCE — Skin Failure";
         else if (total >= 12) statusText = "12–17: PROBABLE — Skin Failure";
-        else if (total >= 6) statusText = "6–11: UNCLEAR / MIXED";
+        else if (total >= 6) statusText = "6–11: UNCLEAR / MIXED ETIOLOGY";
 
         document.getElementById('etiology-status').innerText = statusText;
     }
 
-    function generateEHRNote() {
+    function generateEHR() {
         const score = document.getElementById('total-score').innerText;
         const status = document.getElementById('etiology-status').innerText;
         const soc = document.getElementById('soc-status').innerText;
+        const sfClass = document.getElementById('sf-class').value;
+        const goals = document.getElementById('goals-care').value;
+        const size = document.getElementById('wound-size').value || "Not documented";
+        const tissue = document.getElementById('wound-tissue').value || "Not documented";
 
-        const note = `SORA CLINICAL ASSESSMENT NOTE
-----------------------------------
-Total Score: ${score}
+        const serialMods = Array.from(document.querySelectorAll('.serial-mod:checked')).map(el => " - " + el.parentNode.innerText.trim()).join("\n");
+
+        const note = `SORA CLINICAL ASSESSMENT & ETIOLOGY NOTE
+--------------------------------------------------
+Total SORA Score: ${score}
 Determination: ${status}
-Prevention Standard of Care: ${soc}
+Prevention Standard of Care (72h prior): ${soc}
 
-PROVIDER VERIFICATION:
-"Reviewed assessment and concur with determination of Skin Failure etiology. Wound is classified as Non-Pressure Skin Failure secondary to hypoperfusion/critical illness."
+CLASSIFICATION & PARAMETERS:
+- Primary Etiology: ${sfClass}
+- Goals of Care: ${goals}
+- Wound Dimensions: ${size}
+- Tissue Breakdown: ${tissue}
 
-Assessment Completed: ${new Date().toLocaleDateString()}
+SERIAL ASSESSMENT MODIFIERS PRESENT:
+${serialMods || " - None documented"}
+
+PROVIDER VERIFICATION & PAWSIC CODING STATEMENT:
+"I have reviewed the clinical presentation and concur with the determination of ${sfClass}. This wound is a non-pressure skin failure event resulting from systemic hypoperfusion/critical illness and is NOT a hospital-acquired pressure injury (HAPI)."
+
+Proposed Coding Framework (PAWSIC):
+- Primary: Non-Pressure Skin Failure (${sfClass})
+- Excluded Code: L89._ (Pressure Injury)
+
+Assessment Date: ${new Date().toLocaleDateString()}
 Authority: Skintegrity Partners SORA Framework`;
 
-        document.getElementById('ehr-note').value = note;
+        document.getElementById('ehr-output').value = note;
     }
 
-    function copyToClipboard() {
-        const copyText = document.getElementById("ehr-note");
-        copyText.select();
-        document.execCommand("copy");
-        alert("EHR Progress Note copied to clipboard!");
+    function copyNote() {
+        const output = document.getElementById('ehr-output');
+        output.select();
+        document.execCommand('copy');
+        alert('SORA Documentation Note copied to clipboard!');
     }
 </script>
 </body>
